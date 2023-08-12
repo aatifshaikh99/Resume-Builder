@@ -461,6 +461,11 @@ a {
     margin: 0.9rem 0;
 }
 
+.show-video {
+    display: none;
+    margin: 5px;
+}
+
 /* footer */
 .footer {
     padding: 3rem 0;
