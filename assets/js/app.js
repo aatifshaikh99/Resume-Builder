@@ -72,99 +72,6 @@ const getUserInputs = () => {
 
   const skillElem = document.querySelectorAll(".skill");
 
-  // const experiences = Array.from(document.querySelectorAll(".exp_title")).map(
-  //   (experience, index) => ({
-  //     title: experience.addEventListener("keyup", (e) =>
-  //       validateFormData(e.target, validType.ANY, "Title")
-  //     ),
-  //     organization: document
-  //       .querySelectorAll(".exp_organization")
-  //       [index].addEventListener("keyup", (e) =>
-  //         validateFormData(e.target, validType.ANY, "Organization")
-  //       ),
-  //     location: document
-  //       .querySelectorAll(".exp_location")
-  //       [index].addEventListener("keyup", (e) =>
-  //         validateFormData(e.target, validType.ANY, "Location")
-  //       ),
-  //     startDate: document
-  //       .querySelectorAll(".exp_start_date")
-  //       [index].addEventListener("blur", (e) =>
-  //         validateFormData(e.target, validType.ANY, "Start Date")
-  //       ),
-  //     endDate: document
-  //       .querySelectorAll(".exp_end_date")
-  //       [index].addEventListener("keyup", (e) =>
-  //         validateFormData(e.target, validType.ANY, "End Date")
-  //       ),
-  //     description: document
-  //       .querySelectorAll(".exp_description")
-  //       [index].addEventListener("keyup", (e) =>
-  //         validateFormData(e.target, validType.ANY, "Description")
-  //       ),
-  //   })
-  // );
-
-  // Retrieve education data (repeater)
-  // const educations = Array.from(document.querySelectorAll(".edu_school")).map(
-  //   (education, index) => ({
-  //     school: education.addEventListener("keyup", (e) =>
-  //       validateFormData(e.target, validType.ANY, "College / School")
-  //     ),
-  //     degree: document
-  //       .querySelectorAll(".edu_degree")
-  //       [index].addEventListener("keyup", (e) =>
-  //         validateFormData(e.target, validType.ANY, "Degree/Board - Branch")
-  //       ),
-  //     city: document
-  //       .querySelectorAll(".edu_city")
-  //       [index].addEventListener("keyup", (e) =>
-  //         validateFormData(e.target, validType.ANY, "City")
-  //       ),
-  //     startDate: document
-  //       .querySelectorAll(".edu_start_date")
-  //       [index].addEventListener("blur", (e) =>
-  //         validateFormData(e.target, validType.ANY, "Graduation Start Date")
-  //       ),
-  //     graduationDate: document
-  //       .querySelectorAll(".edu_graduation_date")
-  //       [index].addEventListener("blur", (e) =>
-  //         validateFormData(e.target, validType.ANY, "Graduation End Date")
-  //       ),
-  //     description: document
-  //       .querySelectorAll(".edu_description")
-  //       [index].addEventListener("keyup", (e) =>
-  //         validateFormData(e.target, validType.DIGIT, "Marks / CGP")
-  //       ),
-  //   })
-  // );
-
-  // Retrieve project data (repeater)
-  // const projects = Array.from(document.querySelectorAll(".proj_title")).map(
-  //   (project, index) => ({
-  //     title: project.addEventListener("keyup", (e) =>
-  //       validateFormData(e.target, validType.ANY, "Title")
-  //     ),
-  //     link: document
-  //       .querySelectorAll(".proj_link")
-  //       [index].addEventListener("keyup", (e) =>
-  //         validateFormData(e.target, validType.ANY, "Link")
-  //       ),
-  //     description: document
-  //       .querySelectorAll(".proj_description")
-  //       [index].addEventListener("keyup", (e) =>
-  //         validateFormData(e.target, validType.ANY, "Description")
-  //       ),
-  //   })
-  // );
-
-  // Retrieve skills data (repeater)
-  // const skills = Array.from(document.querySelectorAll(".skill")).map((skill) =>
-  //   skill.addEventListener("keyup", (e) =>
-  //     validateFormData(e.target, validType.ANY, "Skill")
-  //   )
-  // );
-
   firstName.addEventListener("keyup", (e) =>
     validateFormData(e.target, validType.TEXT, "First Name")
   );
@@ -444,13 +351,9 @@ function hideAndShow() {
   if (preview.style.display === "grid" && toggleBtn.textContent === "Hide") {
     preview.style.display = "none";
     toggleBtn.textContent = "Show";
-    // toggleBtn.style.backgroundColor = "#1A91F0";
-    // toggleBtn.style.borderColor = "#1A91F0";
   } else {
     preview.style.display = "grid";
     toggleBtn.textContent = "Hide";
-    // toggleBtn.style.backgroundColor = "#ca0b00";
-    // toggleBtn.style.borderColor = "#ca0b00";
   }
 }
 
