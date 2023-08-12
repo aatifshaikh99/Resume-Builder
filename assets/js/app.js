@@ -1,0 +1,460 @@
+// regex for validation
+const strRegex = /^[a-zA-Z\s]*$/; // containing only letters
+const emailRegex =
+  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const phoneRegex =
+  /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+/* supports following number formats - (123) 456-7890, (123)456-7890, 123-456-7890, 123.456.7890, 1234567890, +31636363634, 075-63546725 */
+const digitRegex = /^\d+$/;
+
+const validType = {
+  TEXT: "text",
+  TEXT_EMP: "text_emp",
+  EMAIL: "email",
+  DIGIT: "digit",
+  PHONENO: "phoneno",
+  ANY: "any",
+};
+
+// first value is for the attributes and second one passes the nodelists
+const fetchValues = (attrs, ...nodeLists) => {
+  let elemsAttrsCount = nodeLists.length;
+  let elemsDataCount = nodeLists[0].length;
+  let tempDataArr = [];
+
+  // first loop deals with the no of repeaters value
+  for (let i = 0; i < elemsDataCount; i++) {
+    let dataObj = {}; // creating an empty object to fill the data
+    // second loop fetches the data for each repeaters value or attributes
+    for (let j = 0; j < elemsAttrsCount; j++) {
+      // setting the key name for the object and fill it with data
+      dataObj[`${attrs[j]}`] = nodeLists[j][i].value;
+    }
+    tempDataArr.push(dataObj);
+  }
+
+  return tempDataArr;
+};
+
+const getUserInputs = () => {
+  // Retrieve input values from the form
+  const firstName = document.querySelector(".firstname");
+  const middleName = document.querySelector(".middlename");
+  const lastName = document.querySelector(".lastname");
+  const designation = document.querySelector(".designation");
+  const address = document.querySelector(".address");
+  const email = document.querySelector(".email");
+  const phoneNo = document.querySelector(".phoneno");
+  const summary = document.querySelector(".summary");
+
+  // Retrieve achievements data (repeater)
+  const achievements = document.querySelectorAll(".achieve_title");
+
+  // experiences
+  const expTitleElem = document.querySelectorAll(".exp_title"),
+    expOrganizationElem = document.querySelectorAll(".exp_organization"),
+    expLocationElem = document.querySelectorAll(".exp_location"),
+    expStartDateElem = document.querySelectorAll(".exp_start_date"),
+    expEndDateElem = document.querySelectorAll(".exp_end_date"),
+    expDescriptionElem = document.querySelectorAll(".exp_description");
+
+  // education
+  const eduSchoolElem = document.querySelectorAll(".edu_school"),
+    eduDegreeElem = document.querySelectorAll(".edu_degree"),
+    eduCityElem = document.querySelectorAll(".edu_city"),
+    eduStartDateElem = document.querySelectorAll(".edu_start_date"),
+    eduGraduationDateElem = document.querySelectorAll(".edu_graduation_date"),
+    eduDescriptionElem = document.querySelectorAll(".edu_description");
+
+  const projTitleElem = document.querySelectorAll(".proj_title"),
+    projLinkElem = document.querySelectorAll(".proj_link"),
+    projDescriptionElem = document.querySelectorAll(".proj_description");
+
+  const skillElem = document.querySelectorAll(".skill");
+
+  // const experiences = Array.from(document.querySelectorAll(".exp_title")).map(
+  //   (experience, index) => ({
+  //     title: experience.addEventListener("keyup", (e) =>
+  //       validateFormData(e.target, validType.ANY, "Title")
+  //     ),
+  //     organization: document
+  //       .querySelectorAll(".exp_organization")
+  //       [index].addEventListener("keyup", (e) =>
+  //         validateFormData(e.target, validType.ANY, "Organization")
+  //       ),
+  //     location: document
+  //       .querySelectorAll(".exp_location")
+  //       [index].addEventListener("keyup", (e) =>
+  //         validateFormData(e.target, validType.ANY, "Location")
+  //       ),
+  //     startDate: document
+  //       .querySelectorAll(".exp_start_date")
+  //       [index].addEventListener("blur", (e) =>
+  //         validateFormData(e.target, validType.ANY, "Start Date")
+  //       ),
+  //     endDate: document
+  //       .querySelectorAll(".exp_end_date")
+  //       [index].addEventListener("keyup", (e) =>
+  //         validateFormData(e.target, validType.ANY, "End Date")
+  //       ),
+  //     description: document
+  //       .querySelectorAll(".exp_description")
+  //       [index].addEventListener("keyup", (e) =>
+  //         validateFormData(e.target, validType.ANY, "Description")
+  //       ),
+  //   })
+  // );
+
+  // Retrieve education data (repeater)
+  // const educations = Array.from(document.querySelectorAll(".edu_school")).map(
+  //   (education, index) => ({
+  //     school: education.addEventListener("keyup", (e) =>
+  //       validateFormData(e.target, validType.ANY, "College / School")
+  //     ),
+  //     degree: document
+  //       .querySelectorAll(".edu_degree")
+  //       [index].addEventListener("keyup", (e) =>
+  //         validateFormData(e.target, validType.ANY, "Degree/Board - Branch")
+  //       ),
+  //     city: document
+  //       .querySelectorAll(".edu_city")
+  //       [index].addEventListener("keyup", (e) =>
+  //         validateFormData(e.target, validType.ANY, "City")
+  //       ),
+  //     startDate: document
+  //       .querySelectorAll(".edu_start_date")
+  //       [index].addEventListener("blur", (e) =>
+  //         validateFormData(e.target, validType.ANY, "Graduation Start Date")
+  //       ),
+  //     graduationDate: document
+  //       .querySelectorAll(".edu_graduation_date")
+  //       [index].addEventListener("blur", (e) =>
+  //         validateFormData(e.target, validType.ANY, "Graduation End Date")
+  //       ),
+  //     description: document
+  //       .querySelectorAll(".edu_description")
+  //       [index].addEventListener("keyup", (e) =>
+  //         validateFormData(e.target, validType.DIGIT, "Marks / CGP")
+  //       ),
+  //   })
+  // );
+
+  // Retrieve project data (repeater)
+  // const projects = Array.from(document.querySelectorAll(".proj_title")).map(
+  //   (project, index) => ({
+  //     title: project.addEventListener("keyup", (e) =>
+  //       validateFormData(e.target, validType.ANY, "Title")
+  //     ),
+  //     link: document
+  //       .querySelectorAll(".proj_link")
+  //       [index].addEventListener("keyup", (e) =>
+  //         validateFormData(e.target, validType.ANY, "Link")
+  //       ),
+  //     description: document
+  //       .querySelectorAll(".proj_description")
+  //       [index].addEventListener("keyup", (e) =>
+  //         validateFormData(e.target, validType.ANY, "Description")
+  //       ),
+  //   })
+  // );
+
+  // Retrieve skills data (repeater)
+  // const skills = Array.from(document.querySelectorAll(".skill")).map((skill) =>
+  //   skill.addEventListener("keyup", (e) =>
+  //     validateFormData(e.target, validType.ANY, "Skill")
+  //   )
+  // );
+
+  firstName.addEventListener("keyup", (e) =>
+    validateFormData(e.target, validType.TEXT, "First Name")
+  );
+  middleName.addEventListener("keyup", (e) =>
+    validateFormData(e.target, validType.TEXT_EMP, "Middle Name")
+  );
+  lastName.addEventListener("keyup", (e) =>
+    validateFormData(e.target, validType.TEXT, "Last Name")
+  );
+  designation.addEventListener("keyup", (e) =>
+    validateFormData(e.target, validType.TEXT, "Designation")
+  );
+  address.addEventListener("keyup", (e) =>
+    validateFormData(e.target, validType.ANY, "Address")
+  );
+  email.addEventListener("keyup", (e) =>
+    validateFormData(e.target, validType.EMAIL, "Email")
+  );
+  phoneNo.addEventListener("keyup", (e) =>
+    validateFormData(e.target, validType.PHONENO, "Phone Number")
+  );
+  summary.addEventListener("keyup", (e) =>
+    validateFormData(e.target, validType.ANY, "Summary / Career Objective")
+  );
+
+  achievements.forEach((achievement) => {
+    achievement.addEventListener("keyup", (e) =>
+      validateFormData(e.target, validType.ANY, "Title")
+    );
+  });
+
+  expTitleElem.forEach((item) =>
+    item.addEventListener("keyup", (e) =>
+      validateFormData(e.target, validType.ANY, "Title")
+    )
+  );
+  expOrganizationElem.forEach((item) =>
+    item.addEventListener("keyup", (e) =>
+      validateFormData(e.target, validType.ANY, "Organization")
+    )
+  );
+  expLocationElem.forEach((item) =>
+    item.addEventListener("keyup", (e) =>
+      validateFormData(e.target, validType.ANY, "Location")
+    )
+  );
+  expStartDateElem.forEach((item) =>
+    item.addEventListener("blur", (e) =>
+      validateFormData(e.target, validType.ANY, "End Date")
+    )
+  );
+  expEndDateElem.forEach((item) =>
+    item.addEventListener("keyup", (e) =>
+      validateFormData(e.target, validType.ANY, "End Date")
+    )
+  );
+  expDescriptionElem.forEach((item) =>
+    item.addEventListener("keyup", (e) =>
+      validateFormData(e.target, validType.ANY, "Description")
+    )
+  );
+  eduSchoolElem.forEach((item) =>
+    item.addEventListener("keyup", (e) =>
+      validateFormData(e.target, validType.ANY, "School")
+    )
+  );
+  eduDegreeElem.forEach((item) =>
+    item.addEventListener("keyup", (e) =>
+      validateFormData(e.target, validType.ANY, "Degree")
+    )
+  );
+  eduCityElem.forEach((item) =>
+    item.addEventListener("keyup", (e) =>
+      validateFormData(e.target, validType.ANY, "City")
+    )
+  );
+  eduStartDateElem.forEach((item) =>
+    item.addEventListener("blur", (e) =>
+      validateFormData(e.target, validType.ANY, "Start Date")
+    )
+  );
+  eduGraduationDateElem.forEach((item) =>
+    item.addEventListener("blur", (e) =>
+      validateFormData(e.target, validType.ANY, "Graduation Date")
+    )
+  );
+  eduDescriptionElem.forEach((item) =>
+    item.addEventListener("keyup", (e) =>
+      validateFormData(e.target, validType.ANY, "Description")
+    )
+  );
+  projTitleElem.forEach((item) =>
+    item.addEventListener("keyup", (e) =>
+      validateFormData(e.target, validType.ANY, "Title")
+    )
+  );
+  projLinkElem.forEach((item) =>
+    item.addEventListener("keyup", (e) =>
+      validateFormData(e.target, validType.ANY, "Link")
+    )
+  );
+  projDescriptionElem.forEach((item) =>
+    item.addEventListener("keyup", (e) =>
+      validateFormData(e.target, validType.ANY, "Description")
+    )
+  );
+  skillElem.forEach((item) =>
+    item.addEventListener("keyup", (e) =>
+      validateFormData(e.target, validType.ANY, "skill")
+    )
+  );
+
+  // Create an object to store the retrieved data
+  return {
+    firstName: firstName.value,
+    middleName: middleName.value,
+    lastName: lastName.value,
+    designation: designation.value,
+    address: address.value,
+    email: email.value,
+    phoneNo: phoneNo.value,
+    summary: summary.value,
+    achievements: fetchValues(["achieve_title"], achievements),
+    experiences: fetchValues(
+      [
+        "exp_title",
+        "exp_organization",
+        "exp_location",
+        "exp_start_date",
+        "exp_end_date",
+        "exp_description",
+      ],
+      expTitleElem,
+      expOrganizationElem,
+      expLocationElem,
+      expStartDateElem,
+      expEndDateElem,
+      expDescriptionElem
+    ),
+    educations: fetchValues(
+      [
+        "edu_school",
+        "edu_degree",
+        "edu_city",
+        "edu_start_date",
+        "edu_graduation_date",
+        "edu_description",
+      ],
+      eduSchoolElem,
+      eduDegreeElem,
+      eduCityElem,
+      eduStartDateElem,
+      eduGraduationDateElem,
+      eduDescriptionElem
+    ),
+    projects: fetchValues(
+      ["proj_title", "proj_link", "proj_description"],
+      projTitleElem,
+      projLinkElem,
+      projDescriptionElem
+    ),
+    skills: fetchValues(["skill"], skillElem),
+  };
+};
+
+function validateFormData(elem, elemType, elemName) {
+  // checking for text string and non empty string
+  if (elemType == validType.TEXT) {
+    if (!strRegex.test(elem.value) || elem.value.trim().length == 0)
+      addErrMsg(elem, elemName);
+    else removeErrMsg(elem);
+  }
+
+  // checking for only text string
+  if (elemType == validType.TEXT_EMP) {
+    if (!strRegex.test(elem.value)) addErrMsg(elem, elemName);
+    else removeErrMsg(elem);
+  }
+
+  // checking for email
+  if (elemType == validType.EMAIL) {
+    if (!emailRegex.test(elem.value) || elem.value.trim().length == 0)
+      addErrMsg(elem, elemName);
+    else removeErrMsg(elem);
+  }
+
+  // checking for phone number
+  if (elemType == validType.PHONENO) {
+    if (!phoneRegex.test(elem.value) || elem.value.trim().length == 0)
+      addErrMsg(elem, elemName);
+    else removeErrMsg(elem);
+  }
+
+  // checking for only empty
+  if (elemType == validType.ANY) {
+    if (elem.value.trim().length == 0) addErrMsg(elem, elemName);
+    else removeErrMsg(elem);
+  }
+}
+
+// adding the invalid text
+function addErrMsg(formElem, formElemName) {
+  formElem.nextElementSibling.innerHTML = `${formElemName} is invalid`;
+}
+
+// removing the invalid text
+function removeErrMsg(formElem) {
+  formElem.nextElementSibling.innerHTML = "";
+}
+
+// show the list data
+const showListData = (listData, listContainer) => {
+  listContainer.innerHTML = "";
+  listData.forEach((listItem) => {
+    let itemElem = document.createElement("div");
+    itemElem.classList.add("preview-item");
+
+    for (const key in listItem) {
+      let subItemElem = document.createElement("span");
+      subItemElem.classList.add("preview-item-val");
+      subItemElem.innerHTML = `${listItem[key]}`;
+      itemElem.appendChild(subItemElem);
+    }
+
+    listContainer.appendChild(itemElem);
+  });
+};
+
+const displayCV = (userData) => {
+  // display elements
+  let nameDsp = document.getElementById("fullname_dsp"),
+    phonenoDsp = document.getElementById("phoneno_dsp"),
+    emailDsp = document.getElementById("email_dsp"),
+    addressDsp = document.getElementById("address_dsp"),
+    designationDsp = document.getElementById("designation_dsp"),
+    summaryDsp = document.getElementById("summary_dsp"),
+    projectsDsp = document.getElementById("projects_dsp"),
+    achievementsDsp = document.getElementById("achievements_dsp"),
+    skillsDsp = document.getElementById("skills_dsp"),
+    educationsDsp = document.getElementById("educations_dsp"),
+    experiencesDsp = document.getElementById("experiences_dsp");
+
+  nameDsp.innerHTML =
+    userData.firstName + " " + userData.middleName + " " + userData.lastName;
+  phonenoDsp.innerHTML = userData.phoneNo;
+  emailDsp.innerHTML = userData.email;
+  addressDsp.innerHTML = userData.address;
+  designationDsp.innerHTML = userData.designation;
+  summaryDsp.innerHTML = userData.summary;
+  showListData(userData.projects, projectsDsp);
+  showListData(userData.achievements, achievementsDsp);
+  showListData(userData.skills, skillsDsp);
+  showListData(userData.educations, educationsDsp);
+  showListData(userData.experiences, experiencesDsp);
+};
+
+// generate CV
+const generateCV = () => {
+  let userData = getUserInputs();
+  displayCV(userData);
+  console.log(userData);
+};
+
+function previewImage() {
+  const imageElem = document.querySelector(".image");
+  const imageDsp = document.getElementById("image_dsp");
+  let oFReader = new FileReader();
+  oFReader.readAsDataURL(imageElem.files[0]);
+  oFReader.onload = function (ofEvent) {
+    imageDsp.src = ofEvent.target.result;
+  };
+}
+
+function hideAndShow() {
+  const preview = document.querySelector(".preview-cnt");
+  const toggleBtn = document.getElementById("hide");
+  if (preview.style.display === "grid" && toggleBtn.textContent === "Hide") {
+    preview.style.display = "none";
+    toggleBtn.textContent = "Show";
+    // toggleBtn.style.backgroundColor = "#1A91F0";
+    // toggleBtn.style.borderColor = "#1A91F0";
+  } else {
+    preview.style.display = "grid";
+    toggleBtn.textContent = "Hide";
+    // toggleBtn.style.backgroundColor = "#ca0b00";
+    // toggleBtn.style.borderColor = "#ca0b00";
+  }
+}
+
+// print CV
+function printCV() {
+  window.print();
+}
